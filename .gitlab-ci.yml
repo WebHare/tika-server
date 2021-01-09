@@ -1,0 +1,44 @@
+# Pipelines: https://gitlab.com/webhare/services/tika-server/-/pipelines
+
+image: docker:latest
+
+services:
+  - docker:dind
+
+stages:
+- build
+- test
+- push
+
+before_script:
+  - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER --password-stdin $CI_REGISTRY
+
+after_script:
+  - docker logout $CI_REGISTRY
+
+buildimage:
+  artifacts:
+    paths:
+      - docker-images
+  stage: build
+  script:
+    - mkdir docker-images
+    - docker build --pull --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG .
+    - docker save $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG > docker-images/app.tar
+
+testimage:
+  stage: test
+  script:
+    - docker load -i docker-images/app.tar
+    - docker run --rm $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG /opt/container/launch-and-run-tests.sh
+
+pushimage:
+  stage: push
+  only:
+    - master
+    - tags
+  except:
+    - schedules
+  script:
+    - docker load -i docker-images/app.tar
+    - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
