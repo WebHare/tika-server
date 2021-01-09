@@ -23,14 +23,14 @@ buildimage:
   stage: build
   script:
     - mkdir docker-images
-    - docker build --pull --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG .
-    - docker save $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG > docker-images/app.tar
+    - docker build --pull --tag $CI_REGISTRY_IMAGE:${CI_COMMIT_TAG:-$CI_COMMIT_REF_SLUG} .
+    - docker save $CI_REGISTRY_IMAGE:${CI_COMMIT_TAG:-$CI_COMMIT_REF_SLUG} > docker-images/app.tar
 
 testimage:
   stage: test
   script:
     - docker load -i docker-images/app.tar
-    - docker run --rm $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG /opt/container/launch-and-run-tests.sh
+    - docker run --rm $CI_REGISTRY_IMAGE:${CI_COMMIT_TAG:-$CI_COMMIT_REF_SLUG} /opt/container/launch-and-run-tests.sh
 
 pushimage:
   stage: push
@@ -41,4 +41,4 @@ pushimage:
     - schedules
   script:
     - docker load -i docker-images/app.tar
-    - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
+    - docker push $CI_REGISTRY_IMAGE:${CI_COMMIT_TAG:-$CI_COMMIT_REF_SLUG}

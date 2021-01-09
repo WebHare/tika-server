@@ -1,6 +1,7 @@
 # Tika server
 
-This package wraps the Tika server and Tessaract OCR.
+This package wraps the Tika server and Tessaract OCR, and embeds a quick test
+whether the OCR is actually extracing images from PDF
 
 You should expose this server behind a proxy with middleware to take care of
 any authentication, but be careful if you put this server behind a HTTP/2 proxy.
