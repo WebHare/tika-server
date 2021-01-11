@@ -13,7 +13,7 @@
     <parser class="org.apache.tika.parser.DefaultParser"/>
     <parser class="org.apache.tika.parser.pdf.PDFParser">
       <params>
-        <param name="extractInlineImages" type="bool">true</param>
+        <!-- <param name="extractInlineImages" type="bool">true</param> explicitly setting is stills afer ..-->
       </params>
     </parser>
   </parsers>
