@@ -3,7 +3,7 @@ FROM apache/tika:1.25-full
 MAINTAINER Arnold Hendriks <arnold@webhare.nl>
 
 # Add -nld
-RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get -y install tesseract-ocr-nld curl
+RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get -y install tesseract-ocr-nld curl dumb-init
 
 # Copy files
 ADD dropins /
