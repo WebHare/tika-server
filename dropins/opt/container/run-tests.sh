@@ -20,7 +20,7 @@ fi
 echo ""
 echo "$(date) tika is online"
 
-if ! ( curl -i -H "Accept: text/html" -T /opt/container/data/kleinepdf.pdf http://127.0.0.1:9998/tika | grep --silent "Omgevingsanalyse" ) ; then
+if ! ( curl -i -H "Accept: text/html" -H "X-Tika-PDFextractInlineImages: true" -T /opt/container/data/kleinepdf.pdf http://127.0.0.1:9998/tika | grep --silent "Omgevingsanalyse" ) ; then
   echo "Does not look like OCR is functional"
   exit 1
 fi
