@@ -17,4 +17,14 @@
       </params>
     </parser>
   </parsers>
+    <server>
+      <params>
+        <!-- which port to start the server on. If you specify a range, e.g. 9995-9998, TikaServerCli will start four forked servers,
+        one at each port.  You can also specify multiple forked servers via a comma-delimited value: 9995,9997.-->
+        <port>9998</port>
+        <host>0.0.0.0</host>
+
+        <taskTimeoutMillis>100000</taskTimeoutMillis>
+        </params>
+    </server>
 </properties>

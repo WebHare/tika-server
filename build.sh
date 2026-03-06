@@ -12,7 +12,7 @@ if [ "$1" == "--push-if-pushed" ]; then
   shift
 fi
 
-TAG=registry.gitlab.com/webhare/services/tika-server:devbuild
+TAG=registry.gitlab.com/webhare/tika-server:devbuild
 if ! docker build -t $TAG . ; then
   exit 1
 fi
